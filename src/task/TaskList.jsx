@@ -1,4 +1,3 @@
-import { MdOutlineStarOutline } from "react-icons/md";
 import { RiStarFill } from "react-icons/ri";
 
 function TaskList({ tasks }) {
@@ -38,9 +37,9 @@ function TaskList({ tasks }) {
                         >
                             <td>
                                 {task.isFavorite ? (
-                                    <RiStarFill className="text-yellow-300" />
+                                    <RiStarFill color="yellow" />
                                 ) : (
-                                    <MdOutlineStarOutline />
+                                    <RiStarFill color="gray"/>
                                 )}
                             </td>
                             <td>{task.title}</td>
