@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ActionTask from "./ActionTask";
 import AddTaskModal from "./AddTaskModal";
+import NoTaskFound from "./NoTaskFound";
 import SearchTask from "./SearchTask";
 import TaskList from "./TaskList";
 
@@ -60,12 +61,23 @@ function TaskBoard() {
         tasks.length = 0;
         setTasks([...tasks]);
     };
-
+    // handle favorite ===========
     const handleFavoriteTask = (id) => {
         const newTasks = [...tasks];
         const favIndex = newTasks.findIndex((task) => task.id === id);
         newTasks[favIndex].isFavorite = !newTasks[favIndex].isFavorite;
         setTasks(newTasks);
+    };
+
+    // handle search
+    const handleSearchTask = (searchTerm) => {
+        // console.log(searchTerm);
+        const filtered = tasks.filter((task) =>
+            task.title
+                .toLocaleLowerCase()
+                .includes(searchTerm.toLocaleLowerCase())
+        );
+        setTasks([...filtered]);
     };
     return (
         <section className="mb-20" id="tasks">
@@ -78,7 +90,7 @@ function TaskBoard() {
             )}
             <div className="container">
                 {/* task search  */}
-                <SearchTask></SearchTask>
+                <SearchTask onSearch={handleSearchTask}></SearchTask>
                 {/* <!-- Search Box Ends --> */}
 
                 <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
@@ -88,12 +100,16 @@ function TaskBoard() {
                         onDeleteAll={handleDeleteALLTask}
                     ></ActionTask>
                     {/* task list  */}
-                    <TaskList
-                        tasks={tasks}
-                        onEdit={handleEditTask}
-                        onDelete={handleDeleteTask}
-                        onFavorite={handleFavoriteTask}
-                    ></TaskList>
+                    {tasks.length > 0 ? (
+                        <TaskList
+                            tasks={tasks}
+                            onEdit={handleEditTask}
+                            onDelete={handleDeleteTask}
+                            onFavorite={handleFavoriteTask}
+                        ></TaskList>
+                    ) : (
+                        <NoTaskFound></NoTaskFound>
+                    )}
                 </div>
             </div>
         </section>
