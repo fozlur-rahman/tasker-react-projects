@@ -1,6 +1,6 @@
 import { RiStarFill } from "react-icons/ri";
 
-function TaskList({ tasks }) {
+function TaskList({ tasks, onEdit, onDelete, onFavorite }) {
     return (
         <div className="overflow-auto">
             <table className="table-fixed overflow-auto xl:w-full">
@@ -36,11 +36,13 @@ function TaskList({ tasks }) {
                             className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
                         >
                             <td>
-                                {task.isFavorite ? (
-                                    <RiStarFill color="yellow" />
-                                ) : (
-                                    <RiStarFill color="gray"/>
-                                )}
+                                <button onClick={() => onFavorite(task.id)}>
+                                    {task.isFavorite ? (
+                                        <RiStarFill color="yellow" />
+                                    ) : (
+                                        <RiStarFill color="gray" />
+                                    )}
+                                </button>
                             </td>
                             <td>{task.title}</td>
                             <td>
@@ -62,10 +64,16 @@ function TaskList({ tasks }) {
                             </td>
                             <td>
                                 <div className="flex items-center justify-center space-x-3">
-                                    <button className="text-red-500">
+                                    <button
+                                        onClick={() => onDelete(task.id)}
+                                        className="text-red-500"
+                                    >
                                         Delete
                                     </button>
-                                    <button className="text-blue-500">
+                                    <button
+                                        onClick={() => onEdit(task)}
+                                        className="text-blue-500"
+                                    >
                                         Edit
                                     </button>
                                 </div>
